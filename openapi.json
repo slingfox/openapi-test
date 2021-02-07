@@ -1,0 +1,1062 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "NitrAPI Documentation",
+    "description": "Nitrado.net RESTful API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.nitrado.net"
+    }
+  ],
+  "paths": {
+    "/ping": {
+      "get": {
+        "summary": "Health Check for API",
+        "operationId": "Global.DoPing",
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "All systems operate as expected."
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Global"
+        ]
+      }
+    },
+    "/user": {
+      "get": {
+        "summary": "User Details",
+        "operationId": "User.Details",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "user": {
+                      "user_id": 1337,
+                      "username": "Marty",
+                      "activated": true,
+                      "timezone": "America/Los_Angeles",
+                      "email": "marty.mcfly@biffco.com",
+                      "credit": 1955,
+                      "currency": "EUR",
+                      "registered": "1985-25-10T01:15:00.000+00:00",
+                      "language": "eng",
+                      "avatar": "https://server.nitrado.net/users.nitrado/1337.jpg",
+                      "donations": true,
+                      "phone": {
+                        "number": "+49******1337",
+                        "country_code": "49",
+                        "verified": true
+                      },
+                      "two_factor": [
+                        "u2f",
+                        "google"
+                      ],
+                      "profile": {
+                        "name": "Marty McFly",
+                        "street": "DeLorean Street 12",
+                        "postcode": "2209",
+                        "city": "Hill Valley",
+                        "country": "US",
+                        "state": "CA",
+                        "country_and_state_verified": true,
+                        "newsletter": true
+                      },
+                      "permissions": [
+                        "TWITCH_WHITELISTING"
+                      ],
+                      "employee": false,
+                      "partner_id": 139
+                    }
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "user": {
+                          "type": "object",
+                          "properties": {
+                            "user_id": {
+                              "type": "number"
+                            },
+                            "username": {
+                              "type": "string"
+                            },
+                            "activated": {
+                              "type": "boolean"
+                            },
+                            "timezone": {
+                              "type": "string"
+                            },
+                            "email": {
+                              "type": "string"
+                            },
+                            "credit": {
+                              "type": "number"
+                            },
+                            "currency": {
+                              "type": "string"
+                            },
+                            "registered": {
+                              "type": "string"
+                            },
+                            "language": {
+                              "type": "string"
+                            },
+                            "avatar": {
+                              "type": "string"
+                            },
+                            "donations": {
+                              "type": "boolean"
+                            },
+                            "phone": {
+                              "type": "object",
+                              "properties": {
+                                "number": {
+                                  "type": "string"
+                                },
+                                "country_code": {
+                                  "type": "string"
+                                },
+                                "verified": {
+                                  "type": "boolean"
+                                }
+                              },
+                              "required": [
+                                "verified"
+                              ]
+                            },
+                            "two_factor": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "profile": {
+                              "type": "object",
+                              "properties": {
+                                "name": {
+                                  "type": "string"
+                                },
+                                "street": {
+                                  "type": "string"
+                                },
+                                "postcode": {
+                                  "type": "string"
+                                },
+                                "city": {
+                                  "type": "string"
+                                },
+                                "country": {
+                                  "type": "string"
+                                },
+                                "state": {
+                                  "type": "string"
+                                },
+                                "country_and_state_verified": {
+                                  "type": "boolean"
+                                },
+                                "newsletter": {
+                                  "type": "boolean"
+                                }
+                              },
+                              "required": [
+                                "country_and_state_verified",
+                                "newsletter"
+                              ]
+                            },
+                            "permissions": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "employee": {
+                              "type": "boolean"
+                            },
+                            "partner_id": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "user_id",
+                            "username",
+                            "activated",
+                            "timezone",
+                            "email",
+                            "credit",
+                            "currency",
+                            "registered",
+                            "language",
+                            "donations",
+                            "phone",
+                            "two_factor",
+                            "profile",
+                            "permissions",
+                            "employee"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "user"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The provided access token is not valid (anymore)."
+          },
+          "429": {
+            "description": "The rate limit has been exceeded. Please contact our support if you have a legit reason get a higher rate limit."
+          },
+          "503": {
+            "description": "Maintenance. API is currently not available. Please come back in a few minutes and try it again."
+          }
+        },
+        "tags": [
+          "User"
+        ],
+        "security": [
+          {
+            "oAuth": [],
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "summary": "Update User",
+        "operationId": "User.Update",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "token": {
+                    "type": "string",
+                    "description": "The current User Update Token."
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "A new account password."
+                  },
+                  "timezone": {
+                    "type": "string",
+                    "description": "A new User Timezone."
+                  },
+                  "donations": {
+                    "type": "string",
+                    "description": "Set it to true to receive donations.",
+                    "default": "false"
+                  },
+                  "profile": {
+                    "type": "object",
+                    "properties": {},
+                    "required": [],
+                    "default": "{}"
+                  }
+                },
+                "required": [
+                  "token"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "token": "79UNQjSNa1D6hmWM6U-vrAxUbY0jr74E",
+                    "ttl": "2017-02-28T14:28:22.000+00:00"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The provided access token is not valid (anymore)."
+          },
+          "429": {
+            "description": "The rate limit has been exceeded. Please contact our support if you have a legit reason get a higher rate limit."
+          },
+          "503": {
+            "description": "Maintenance. API is currently not available. Please come back in a few minutes and try it again."
+          }
+        },
+        "tags": [
+          "User"
+        ],
+        "security": [
+          {
+            "oAuth": [],
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/user/account_overview": {
+      "get": {
+        "summary": "Request User Account Overview",
+        "operationId": "User.GetAccountOverview",
+        "parameters": [
+          {
+            "name": "year",
+            "description": "Get the account overview for a certain year",
+            "in": "query",
+            "required": false,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "number",
+                  "description": "Get the account overview for a certain year"
+                }
+              }
+            }
+          },
+          {
+            "name": "month",
+            "description": "Get the account overview for a certain month",
+            "in": "query",
+            "required": false,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "number",
+                  "description": "Get the account overview for a certain month"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "account_overview": {
+                      "from": "2017-02-01T00:00:00.000+00:00",
+                      "end": "2017-03-01T00:00:00.000+00:00",
+                      "payments": [
+                        {
+                          "id": 11405328,
+                          "invoice_id": null,
+                          "service_id": 1645223,
+                          "switched_service_id": null,
+                          "donation": null,
+                          "date": "2017-02-14T16:20:15",
+                          "method": "internal",
+                          "duration": 86400,
+                          "type": "decrease",
+                          "amount": 146,
+                          "currency": "EUR",
+                          "ip": "127.0.0.1",
+                          "refundable": false,
+                          "provider_fee": null,
+                          "last_status": null
+                        },
+                        {
+                          "id": 11399732,
+                          "invoice_id": null,
+                          "service_id": 1645223,
+                          "switched_service_id": null,
+                          "donation": null,
+                          "date": "2017-02-13T16:22:33",
+                          "method": "internal",
+                          "duration": 86400,
+                          "type": "decrease",
+                          "amount": 146,
+                          "currency": "EUR",
+                          "ip": "127.0.0.1",
+                          "refundable": false,
+                          "provider_fee": null,
+                          "last_status": null
+                        }
+                      ]
+                    }
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "account_overview": {
+                          "type": "object",
+                          "properties": {
+                            "from": {
+                              "type": "string"
+                            },
+                            "to": {
+                              "type": "string"
+                            },
+                            "payments": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "number"
+                                  },
+                                  "invoice_id": {
+                                    "type": "number"
+                                  },
+                                  "service_id": {
+                                    "type": "number"
+                                  },
+                                  "switched_service_id": {
+                                    "type": "number"
+                                  },
+                                  "donation": {
+                                    "type": "object",
+                                    "properties": {
+                                      "sender_user_id": {
+                                        "type": "number"
+                                      },
+                                      "receiver_user_id": {
+                                        "type": "number"
+                                      },
+                                      "subject": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "sender_user_id",
+                                      "receiver_user_id"
+                                    ]
+                                  },
+                                  "date": {
+                                    "type": "string"
+                                  },
+                                  "method": {
+                                    "type": "string"
+                                  },
+                                  "duration": {
+                                    "type": "number"
+                                  },
+                                  "type": {
+                                    "type": "string"
+                                  },
+                                  "amount": {
+                                    "type": "number"
+                                  },
+                                  "currency": {
+                                    "type": "string"
+                                  },
+                                  "ip": {
+                                    "type": "string"
+                                  },
+                                  "refundable": {
+                                    "type": "boolean"
+                                  },
+                                  "provider_fee": {
+                                    "type": "number"
+                                  },
+                                  "last_status": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "date",
+                                  "method",
+                                  "duration",
+                                  "type",
+                                  "amount",
+                                  "currency",
+                                  "ip",
+                                  "refundable"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "from",
+                            "to",
+                            "payments"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "account_overview"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The provided access token is not valid (anymore)."
+          },
+          "429": {
+            "description": "The rate limit has been exceeded. Please contact our support if you have a legit reason get a higher rate limit."
+          },
+          "503": {
+            "description": "Maintenance. API is currently not available. Please come back in a few minutes and try it again."
+          }
+        },
+        "tags": [
+          "User"
+        ],
+        "security": [
+          {
+            "oAuth": [],
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/user/token": {
+      "post": {
+        "summary": "Request User Update Token",
+        "description": "<p>A user update token can be used to change user profile information.</p>",
+        "operationId": "User.GetUserUpdateToken",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "password": {
+                    "type": "string",
+                    "description": "The current user password."
+                  }
+                },
+                "required": [
+                  "password"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "token": "79UNQjSNa1D6hmWM6U-vrAxUbY0jr74E",
+                    "ttl": 123456789
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The provided access token is not valid (anymore)."
+          },
+          "429": {
+            "description": "The rate limit has been exceeded. Please contact our support if you have a legit reason get a higher rate limit."
+          },
+          "503": {
+            "description": "Maintenance. API is currently not available. Please come back in a few minutes and try it again."
+          }
+        },
+        "tags": [
+          "User"
+        ],
+        "security": [
+          {
+            "oAuth": [],
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/user/verify_country_and_state": {
+      "post": {
+        "summary": "Verify the user's country and state",
+        "description": "<p>This method may only be invoked if the user has manually confirmed their residence, meaning that the values &quot;country&quot; and &quot;state&quot; in the user profile are correct.</p> <pre><code>Country and state can also be passed as optional parameters, assigning the respective values in the user profile.  This operation does nothing if the user already verified their country and state.</code></pre>",
+        "operationId": "User.VerifyCountryAndState",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "country": {
+                    "type": "string",
+                    "description": "The user country. Optional"
+                  },
+                  "state": {
+                    "type": "string",
+                    "description": "The user state. Optional"
+                  }
+                },
+                "required": []
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "The provided access token is not valid (anymore)."
+          },
+          "429": {
+            "description": "The rate limit has been exceeded. Please contact our support if you have a legit reason get a higher rate limit."
+          },
+          "503": {
+            "description": "Maintenance. API is currently not available. Please come back in a few minutes and try it again."
+          }
+        },
+        "tags": [
+          "User"
+        ],
+        "security": [
+          {
+            "oAuth": [],
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/user/ssh_keys/{id}": {
+      "delete": {
+        "summary": "Delete a SSH Key",
+        "operationId": "SSH_Keys.DeleteSSHKey",
+        "parameters": [
+          {
+            "name": "id",
+            "description": "Undocumented {id} path parameter.",
+            "in": "path",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "The SSH Key has been deleted."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The provided access token is not valid (anymore)."
+          },
+          "429": {
+            "description": "The rate limit has been exceeded. Please contact our support if you have a legit reason get a higher rate limit."
+          },
+          "503": {
+            "description": "Maintenance. API is currently not available. Please come back in a few minutes and try it again."
+          }
+        },
+        "tags": [
+          "SSH Keys"
+        ],
+        "security": [
+          {
+            "oAuth": [],
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "summary": "Update a SSH Key",
+        "operationId": "SSH_Keys.UpdateSSHKey",
+        "parameters": [
+          {
+            "name": "id",
+            "description": "Undocumented {id} path parameter.",
+            "in": "path",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "The SSH Key has been deleted."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The provided access token is not valid (anymore)."
+          },
+          "429": {
+            "description": "The rate limit has been exceeded. Please contact our support if you have a legit reason get a higher rate limit."
+          },
+          "503": {
+            "description": "Maintenance. API is currently not available. Please come back in a few minutes and try it again."
+          }
+        },
+        "tags": [
+          "SSH Keys"
+        ],
+        "security": [
+          {
+            "oAuth": [],
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/user/ssh_keys": {
+      "get": {
+        "summary": "Request all SSH Keys",
+        "operationId": "SSH_Keys.RequestSSHKeys",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "keys": [
+                      {
+                        "id": 1,
+                        "type": "ssh-rsa",
+                        "public_key": "AAAAB3NzaC1yc2EAAAADAQABAAABAQDc4Sm93wXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+                        "comment": "My super secret public key... oh wait",
+                        "enabled": true
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The provided access token is not valid (anymore)."
+          },
+          "429": {
+            "description": "The rate limit has been exceeded. Please contact our support if you have a legit reason get a higher rate limit."
+          },
+          "503": {
+            "description": "Maintenance. API is currently not available. Please come back in a few minutes and try it again."
+          }
+        },
+        "tags": [
+          "SSH Keys"
+        ],
+        "security": [
+          {
+            "oAuth": [],
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "summary": "Upload a SSH Key",
+        "operationId": "SSH_Keys.UploadSSHKey",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "The SSH Key has been added."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The provided access token is not valid (anymore)."
+          },
+          "429": {
+            "description": "The rate limit has been exceeded. Please contact our support if you have a legit reason get a higher rate limit."
+          },
+          "503": {
+            "description": "Maintenance. API is currently not available. Please come back in a few minutes and try it again."
+          }
+        },
+        "tags": [
+          "SSH Keys"
+        ],
+        "security": [
+          {
+            "oAuth": [],
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/user/phone": {
+      "post": {
+        "summary": "Add phone number",
+        "operationId": "User_Phone.Create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "number": {
+                    "type": "string",
+                    "description": "Phone number with country code"
+                  },
+                  "token": {
+                    "type": "string",
+                    "description": "The current User Update Token."
+                  }
+                },
+                "required": [
+                  "number",
+                  "token"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "You will receive a SMS with a verification code in the next minutes."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The provided access token is not valid (anymore)."
+          },
+          "429": {
+            "description": "The rate limit has been exceeded. Please contact our support if you have a legit reason get a higher rate limit."
+          },
+          "503": {
+            "description": "Maintenance. API is currently not available. Please come back in a few minutes and try it again."
+          }
+        },
+        "tags": [
+          "User Phone"
+        ],
+        "security": [
+          {
+            "oAuth": [],
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Delete number",
+        "operationId": "User_Phone.Delete",
+        "parameters": [
+          {
+            "name": "token",
+            "description": "The current User Update Token.",
+            "in": "query",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "description": "The current User Update Token."
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "The number has been deleted from your account."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The provided access token is not valid (anymore)."
+          },
+          "429": {
+            "description": "The rate limit has been exceeded. Please contact our support if you have a legit reason get a higher rate limit."
+          },
+          "503": {
+            "description": "Maintenance. API is currently not available. Please come back in a few minutes and try it again."
+          }
+        },
+        "tags": [
+          "User Phone"
+        ],
+        "security": [
+          {
+            "oAuth": [],
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/user/phone/verify": {
+      "post": {
+        "summary": "Verify number",
+        "operationId": "User_Phone.Verify",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string",
+                    "description": "Verification code from SMS"
+                  }
+                },
+                "required": [
+                  "code"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "The number has been verified successful."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The provided access token is not valid (anymore)."
+          },
+          "429": {
+            "description": "The rate limit has been exceeded. Please contact our support if you have a legit reason get a higher rate limit."
+          },
+          "503": {
+            "description": "Maintenance. API is currently not available. Please come back in a few minutes and try it again."
+          }
+        },
+        "tags": [
+          "User Phone"
+        ],
+        "security": [
+          {
+            "oAuth": [],
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "oAuth": {
+        "type": "oauth2",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://oauth.nitrado.net/oauth/v2/auth",
+            "tokenUrl": "https://oauth.nitrado.net/oauth/v2/token",
+            "refreshUrl": "https://oauth.nitrado.net/oauth/v2/token",
+            "scopes": {
+              "user_info": "Access to a user's basic account information (username, email address, ...)",
+              "service": "Access to a customer's rented services.",
+              "service_order": "Access to billing-related endpoints.",
+              "ssh_keys": "Access to user's ssh public keys"
+            }
+          }
+        }
+      },
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Provide your access token here, alternatively you can pass it as GET Parameter."
+      }
+    }
+  }
+}
