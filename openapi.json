@@ -296,8 +296,7 @@
                   },
                   "profile": {
                     "type": "object",
-                    "properties": {},
-                    "required": []
+                    "properties": {}
                   }
                 },
                 "required": [
@@ -648,8 +647,7 @@
                     "type": "string",
                     "description": "The user state. Optional"
                   }
-                },
-                "required": []
+                }
               }
             }
           }
