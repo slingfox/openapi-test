@@ -297,8 +297,7 @@
                   "profile": {
                     "type": "object",
                     "properties": {},
-                    "required": [],
-                    "default": "{}"
+                    "required": []
                   }
                 },
                 "required": [
