@@ -1536,6 +1536,66 @@
         ]
       }
     },
+    "/user/language": {
+      "post": {
+        "summary": "Update the user language",
+        "operationId": "Update_language",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "Update_languageRequest",
+                "type": "object",
+                "properties": {
+                  "language": {
+                    "type": "string",
+                    "description": "The new language value. One of [spa deu eng fre pol ita dut arg usa]"
+                  }
+                },
+                "required": [
+                  "language"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": {
+                    "language": "deu"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The provided access token is not valid (anymore)."
+          },
+          "429": {
+            "description": "The rate limit has been exceeded. Please contact our support if you have a legit reason get a higher rate limit."
+          },
+          "503": {
+            "description": "Maintenance. API is currently not available. Please come back in a few minutes and try it again."
+          }
+        },
+        "tags": [
+          "User"
+        ],
+        "security": [
+          {
+            "oAuth": [],
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/user/verify_country_and_state": {
       "post": {
         "summary": "Verify the user's country and state",
@@ -1963,82 +2023,6 @@
       }
     },
     "/services/{id}/auto_extend": {
-      "post": {
-        "summary": "Update Auto-Extend Status",
-        "operationId": "UpdateAutoExtendInformation",
-        "parameters": [
-          {
-            "name": "id",
-            "description": "Undocumented {id} path parameter.",
-            "in": "path",
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "title": "UpdateAutoExtendInformationRequest",
-                "type": "object",
-                "properties": {
-                  "auto_extend_id": {
-                    "type": "number",
-                    "description": "Provide 0 if you want to disable auto-extend.",
-                    "default": "0"
-                  },
-                  "rental_time": {
-                    "type": "number",
-                    "description": "Selected rental time in hours.",
-                    "default": "720"
-                  }
-                },
-                "required": [
-                  "auto_extend_id"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Operation",
-            "content": {
-              "application/json": {
-                "example": {
-                  "status": "success",
-                  "message": "The auto extension has been disabled."
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "The provided access token is not valid (anymore)."
-          },
-          "429": {
-            "description": "The rate limit has been exceeded. Please contact our support if you have a legit reason get a higher rate limit."
-          },
-          "503": {
-            "description": "Maintenance. API is currently not available. Please come back in a few minutes and try it again."
-          }
-        },
-        "tags": [
-          "Service"
-        ],
-        "security": [
-          {
-            "oAuth": [],
-            "bearerAuth": []
-          }
-        ]
-      },
       "get": {
         "summary": "Auto-Extend Information",
         "operationId": "RequestAutoExtendInformation",
@@ -2124,6 +2108,82 @@
                       }
                     ]
                   }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The provided access token is not valid (anymore)."
+          },
+          "429": {
+            "description": "The rate limit has been exceeded. Please contact our support if you have a legit reason get a higher rate limit."
+          },
+          "503": {
+            "description": "Maintenance. API is currently not available. Please come back in a few minutes and try it again."
+          }
+        },
+        "tags": [
+          "Service"
+        ],
+        "security": [
+          {
+            "oAuth": [],
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "summary": "Update Auto-Extend Status",
+        "operationId": "UpdateAutoExtendInformation",
+        "parameters": [
+          {
+            "name": "id",
+            "description": "Undocumented {id} path parameter.",
+            "in": "path",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "UpdateAutoExtendInformationRequest",
+                "type": "object",
+                "properties": {
+                  "auto_extend_id": {
+                    "type": "number",
+                    "description": "Provide 0 if you want to disable auto-extend.",
+                    "default": "0"
+                  },
+                  "rental_time": {
+                    "type": "number",
+                    "description": "Selected rental time in hours.",
+                    "default": "720"
+                  }
+                },
+                "required": [
+                  "auto_extend_id"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "message": "The auto extension has been disabled."
                 }
               }
             }
