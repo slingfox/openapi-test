@@ -9,6 +9,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - run: env
       - uses: khan/pull-request-comment-trigger@master
         id: checkPatch
         with:
@@ -32,3 +33,8 @@ jobs:
           GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       - run: 'echo Found it!'
         if: steps.checkMajor.outputs.triggered == 'true'
+      - name: Merge pull request
+        uses: "pascalgn/automerge-action@v0.13.1"
+        if: steps.checkOatch.outputs.triggered == 'true' || steps.checkMinor.outputs.triggered == 'true' || steps.checkMajor.outputs.triggered == 'true'
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
