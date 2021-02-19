@@ -496,9 +496,8 @@
                           "type": "array",
                           "description": "TODO the schema of this object is unknown",
                           "items": {
-                            "type": "object",
-                            "description": "TODO the schema of this object is unknown",
-                            "properties": {}
+                            "type": "string",
+                            "description": "TODO the schema of this object is unknown"
                           }
                         }
                       },
@@ -2702,13 +2701,14 @@
         "parameters": [
           {
             "name": "id",
-            "description": "Undocumented {id} path parameter.",
+            "description": "ID of the service",
             "in": "path",
             "required": true,
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "ID of the service"
                 }
               }
             }
@@ -2781,6 +2781,67 @@
                       }
                     ]
                   }
+                },
+                "schema": {
+                  "title": "RequestAutoExtendInformationResponse",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "auto_extend": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "integer"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "active": {
+                                "type": "boolean"
+                              },
+                              "description": {
+                                "type": "string"
+                              },
+                              "available": {
+                                "type": "boolean"
+                              },
+                              "payment_method": {
+                                "type": "string"
+                              },
+                              "rental_times": {
+                                "type": "object",
+                                "additionalProperties": {
+                                  "type": "integer"
+                                }
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name",
+                              "active",
+                              "description",
+                              "available",
+                              "rental_times"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "auto_extend"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
                 }
               }
             }
@@ -2805,7 +2866,9 @@
         ],
         "security": [
           {
-            "oAuth": [],
+            "oAuth": [
+              "service"
+            ],
             "bearerAuth": []
           }
         ]
@@ -2816,13 +2879,14 @@
         "parameters": [
           {
             "name": "id",
-            "description": "Undocumented {id} path parameter.",
+            "description": "ID of the service",
             "in": "path",
             "required": true,
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "ID of the service"
                 }
               }
             }
@@ -2837,12 +2901,12 @@
                 "type": "object",
                 "properties": {
                   "auto_extend_id": {
-                    "type": "number",
+                    "type": "integer",
                     "description": "Provide 0 if you want to disable auto-extend.",
                     "default": "0"
                   },
                   "rental_time": {
-                    "type": "number",
+                    "type": "integer",
                     "description": "Selected rental time in hours.",
                     "default": "720"
                   }
@@ -2862,6 +2926,22 @@
                 "example": {
                   "status": "success",
                   "message": "The auto extension has been disabled."
+                },
+                "schema": {
+                  "title": "UpdateAutoExtendInformationResponse",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "message"
+                  ]
                 }
               }
             }
@@ -2886,7 +2966,9 @@
         ],
         "security": [
           {
-            "oAuth": [],
+            "oAuth": [
+              "service"
+            ],
             "bearerAuth": []
           }
         ]
@@ -2896,17 +2978,18 @@
       "post": {
         "summary": "Cancels the service",
         "description": "<p>Canceling the service is not supported by all product types.</p>",
-        "operationId": "ServiceCancel",
+        "operationId": "CancelService",
         "parameters": [
           {
             "name": "id",
-            "description": "Undocumented {id} path parameter.",
+            "description": "ID of the service",
             "in": "path",
             "required": true,
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "description": "ID of the service"
                 }
               }
             }
@@ -2917,7 +3000,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "title": "ServiceCancelRequest",
+                "title": "CancelServiceRequest",
                 "type": "object",
                 "properties": {
                   "delete_instantly": {
@@ -2937,6 +3020,22 @@
                 "example": {
                   "status": "success",
                   "message": "The server will be canceled now."
+                },
+                "schema": {
+                  "title": "CancelServiceResponse",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "message"
+                  ]
                 }
               }
             }
@@ -2961,7 +3060,9 @@
         ],
         "security": [
           {
-            "oAuth": [],
+            "oAuth": [
+              "service"
+            ],
             "bearerAuth": []
           }
         ]
@@ -7573,7 +7674,8 @@
                     "type": "object",
                     "description": "",
                     "additionalProperties": {
-                      "type": "string"
+                      "type": "string",
+                      "description": ""
                     }
                   }
                 },
@@ -7660,7 +7762,8 @@
                     "type": "object",
                     "description": "",
                     "additionalProperties": {
-                      "type": "string"
+                      "type": "string",
+                      "description": ""
                     }
                   }
                 },
@@ -14265,6 +14368,208 @@
         ]
       }
     },
+    "/oauth/": {
+      "get": {
+        "summary": "list OAuth clients",
+        "operationId": "GetOauth",
+        "parameters": [],
+        "responses": {
+          "401": {
+            "description": "The provided access token is not valid (anymore)."
+          },
+          "429": {
+            "description": "The rate limit has been exceeded. Please contact our support if you have a legit reason get a higher rate limit."
+          },
+          "503": {
+            "description": "Maintenance. API is currently not available. Please come back in a few minutes and try it again."
+          }
+        },
+        "tags": [
+          "OAuth Client"
+        ],
+        "security": [
+          {
+            "oAuth": [],
+            "bearerAuth": []
+          }
+        ]
+      },
+      "servers": [
+        {
+          "url": "https://oauth.nitrado.net"
+        }
+      ]
+    },
+    "/oauth/{id}": {
+      "get": {
+        "summary": "show OAuth client",
+        "operationId": "GetOauthId",
+        "parameters": [
+          {
+            "name": "id",
+            "description": "Undocumented {id} path parameter.",
+            "in": "path",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "content": {
+              "application/html": {
+                "example": "example is not valid json:\n{\n\"status\": \"success\",\n\"data\": {\n    \"client\": {\n        \"id\": \"4_BRr8EACRiDIMNhs3s7zNMYF5Qnyu_ZCv-gUy70H0IlDZmRVV_YI1qGGhtNUz\",\n        \"secret\": \"ep5_TNb7xJtk-srFV8Ilfk2I5r1XBRK9s14sivHsdQeezQcqXb7wo7NC2RpnY1ee\",\n        \"official\": false,\n        \"enabled\": true,\n        \"name\": \"My Cool APP\",\n        \"icon\": null,\n        \"description\": \"This is my cool app that does something!\",\n        \"website\": \"https://www.example.com\",\n        \"email\": \"dev@example.com\",\n        \"redirect_uris\": [\"https://www.example.com/oauth/check\"],\n        \"grant_types\": [\n            \"token\",\n            \"authorization_code\",\n            \"refresh_token\"\n        ]\n    }\n}"
+              }
+            }
+          },
+          "401": {
+            "description": "The provided access token is not valid (anymore)."
+          },
+          "429": {
+            "description": "The rate limit has been exceeded. Please contact our support if you have a legit reason get a higher rate limit."
+          },
+          "503": {
+            "description": "Maintenance. API is currently not available. Please come back in a few minutes and try it again."
+          }
+        },
+        "tags": [
+          "OAuth Client"
+        ],
+        "security": [
+          {
+            "oAuth": [],
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "summary": "delete OAuth client",
+        "operationId": "DeleteOauthId",
+        "parameters": [
+          {
+            "name": "token",
+            "description": "The current User Update Token.",
+            "in": "query",
+            "required": false,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "description": "The current User Update Token."
+                }
+              }
+            }
+          },
+          {
+            "name": "id",
+            "description": "Undocumented {id} path parameter.",
+            "in": "path",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "The provided access token is not valid (anymore)."
+          },
+          "429": {
+            "description": "The rate limit has been exceeded. Please contact our support if you have a legit reason get a higher rate limit."
+          },
+          "503": {
+            "description": "Maintenance. API is currently not available. Please come back in a few minutes and try it again."
+          }
+        },
+        "tags": [
+          "OAuth Client"
+        ],
+        "security": [
+          {
+            "oAuth": [],
+            "bearerAuth": []
+          }
+        ]
+      },
+      "servers": [
+        {
+          "url": "https://oauth.nitrado.net"
+        }
+      ]
+    },
+    "/oauth/{id}/secret": {
+      "put": {
+        "summary": "generate new OAuth client secret",
+        "operationId": "PutOauthIdSecret",
+        "parameters": [
+          {
+            "name": "id",
+            "description": "Undocumented {id} path parameter.",
+            "in": "path",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "title": "PutOauthIdSecretRequest",
+                "type": "object",
+                "properties": {
+                  "token": {
+                    "type": "string",
+                    "description": "The current User Update Token."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "The provided access token is not valid (anymore)."
+          },
+          "429": {
+            "description": "The rate limit has been exceeded. Please contact our support if you have a legit reason get a higher rate limit."
+          },
+          "503": {
+            "description": "Maintenance. API is currently not available. Please come back in a few minutes and try it again."
+          }
+        },
+        "tags": [
+          "OAuth Client"
+        ],
+        "security": [
+          {
+            "oAuth": [],
+            "bearerAuth": []
+          }
+        ]
+      },
+      "servers": [
+        {
+          "url": "https://oauth.nitrado.net"
+        }
+      ]
+    },
     "/order/order/bouncer": {
       "post": {
         "summary": "Bouncer",
@@ -14720,8 +15025,7 @@
       "get": {
         "summary": "Locations",
         "description": "<p>The location request lists all datacenter locations. You can determine which products are available and also get the id of each location.</p>",
-        "operationId": "OrderLocations",
-        "parameters": [],
+        "operationId": "GetOrderLocations",
         "responses": {
           "200": {
             "description": "Successful Operation",
@@ -14763,6 +15067,117 @@
                       }
                     ]
                   }
+                },
+                "schema": {
+                  "title": "GetOrderLocationsResponse",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "locations": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "integer"
+                              },
+                              "country": {
+                                "type": "string"
+                              },
+                              "city": {
+                                "type": "string"
+                              },
+                              "ping_url": {
+                                "type": "string"
+                              },
+                              "icons": {
+                                "type": "object",
+                                "properties": {
+                                  "x256": {
+                                    "type": "string"
+                                  },
+                                  "x128": {
+                                    "type": "string"
+                                  },
+                                  "x64": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "x256",
+                                  "x128",
+                                  "x64"
+                                ]
+                              },
+                              "products": {
+                                "type": "object",
+                                "properties": {
+                                  "cloud_server": {
+                                    "type": "boolean"
+                                  },
+                                  "cloud_server_dynamic": {
+                                    "type": "boolean"
+                                  },
+                                  "gameserver": {
+                                    "type": "boolean"
+                                  },
+                                  "teamspeak3": {
+                                    "type": "boolean"
+                                  },
+                                  "musicbot": {
+                                    "type": "boolean"
+                                  },
+                                  "bouncer": {
+                                    "type": "boolean"
+                                  },
+                                  "ventrilo": {
+                                    "type": "boolean"
+                                  },
+                                  "mumble": {
+                                    "type": "boolean"
+                                  },
+                                  "webspace": {
+                                    "type": "boolean"
+                                  }
+                                },
+                                "required": [
+                                  "cloud_server",
+                                  "cloud_server_dynamic",
+                                  "gameserver",
+                                  "teamspeak3",
+                                  "musicbot",
+                                  "bouncer",
+                                  "ventrilo",
+                                  "mumble",
+                                  "webspace"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "country",
+                              "city",
+                              "ping_url",
+                              "icons",
+                              "products"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "locations"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
                 }
               }
             }
@@ -14779,12 +15194,6 @@
         },
         "tags": [
           "Order"
-        ],
-        "security": [
-          {
-            "oAuth": [],
-            "bearerAuth": []
-          }
         ]
       }
     },
@@ -16524,6 +16933,126 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "Successful Operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "PricingBouncerResponse",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "prices": {
+                          "type": "object",
+                          "properties": {
+                            "advice": {
+                              "type": "integer"
+                            },
+                            "rental_times": {
+                              "type": "array",
+                              "items": {
+                                "type": "integer"
+                              }
+                            },
+                            "parts": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "type": "string"
+                                  },
+                                  "min_count": {
+                                    "type": "integer"
+                                  },
+                                  "max_count": {
+                                    "type": "integer"
+                                  },
+                                  "optional": {
+                                    "type": "boolean"
+                                  },
+                                  "steps": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "integer"
+                                    }
+                                  },
+                                  "step_names": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "rental_times": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "object",
+                                      "properties": {
+                                        "hours": {
+                                          "type": "integer"
+                                        },
+                                        "prices": {
+                                          "type": "array",
+                                          "items": {
+                                            "type": "object",
+                                            "properties": {
+                                              "count": {
+                                                "type": "integer"
+                                              },
+                                              "price": {
+                                                "type": "integer"
+                                              }
+                                            },
+                                            "required": [
+                                              "count",
+                                              "price"
+                                            ]
+                                          }
+                                        }
+                                      },
+                                      "required": [
+                                        "hours",
+                                        "prices"
+                                      ]
+                                    }
+                                  }
+                                },
+                                "required": [
+                                  "type",
+                                  "min_count",
+                                  "max_count",
+                                  "optional",
+                                  "steps",
+                                  "rental_times"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "advice",
+                            "rental_times",
+                            "parts"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "prices"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
           "401": {
             "description": "The provided access token is not valid (anymore)."
           },
