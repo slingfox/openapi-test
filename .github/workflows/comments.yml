@@ -38,3 +38,5 @@ jobs:
         if: steps.checkOatch.outputs.triggered == 'true' || steps.checkMinor.outputs.triggered == 'true' || steps.checkMajor.outputs.triggered == 'true'
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          MERGE_LABELS: ""
+          MERGE_METHOD: rebase
