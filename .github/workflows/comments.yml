@@ -12,22 +12,22 @@ jobs:
       - uses: khan/pull-request-comment-trigger@master
         id: checkPatch
         with:
-          trigger: '@patch'
-          reaction: +1
+          trigger: '!patch'
+          reaction: '+1'
         env:
           GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       - uses: khan/pull-request-comment-trigger@master
         id: checkMinor
         with:
-          trigger: '@minor'
-          reaction: +1
+          trigger: '!minor'
+          reaction: 'hooray'
         env:
           GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       - uses: khan/pull-request-comment-trigger@master
         id: checkMajor
         with:
-          trigger: '@major'
-          reaction: +1
+          trigger: '!major'
+          reaction: 'rocket'
         env:
           GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       - run: 'echo Found it!'
