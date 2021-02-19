@@ -1,7 +1,7 @@
 name: Merge on pull request comment
 on:
-  pull_request:
-    types: [opened]
+#  pull_request:
+#    types: [opened]
   issue_comment:
     types: [created]
 
@@ -10,33 +10,40 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: env
-      - uses: khan/pull-request-comment-trigger@master
-        id: checkPatch
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
         with:
-          trigger: '!patch'
-          reaction: '+1'
-        env:
-          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      - uses: khan/pull-request-comment-trigger@master
-        id: checkMinor
-        with:
-          trigger: '!minor'
-          reaction: 'hooray'
-        env:
-          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      - uses: khan/pull-request-comment-trigger@master
-        id: checkMajor
-        with:
-          trigger: '!major'
-          reaction: 'rocket'
-        env:
-          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      - run: 'echo Found it!'
-        if: steps.checkMajor.outputs.triggered == 'true'
-      - name: Merge pull request
-        uses: "pascalgn/automerge-action@v0.13.1"
-        if: steps.checkOatch.outputs.triggered == 'true' || steps.checkMinor.outputs.triggered == 'true' || steps.checkMajor.outputs.triggered == 'true'
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          MERGE_LABELS: ""
-          MERGE_METHOD: rebase
+          node-version: '12'
+      - run: node handle-comment.js
+        
+
+      # - uses: khan/pull-request-comment-trigger@master
+      #   id: checkPatch
+      #   with:
+      #     trigger: '!patch'
+      #     reaction: '+1'
+      #   env:
+      #     GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      # - uses: khan/pull-request-comment-trigger@master
+      #   id: checkMinor
+      #   with:
+      #     trigger: '!minor'
+      #     reaction: 'hooray'
+      #   env:
+      #     GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      # - uses: khan/pull-request-comment-trigger@master
+      #   id: checkMajor
+      #   with:
+      #     trigger: '!major'
+      #     reaction: 'rocket'
+      #   env:
+      #     GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      # - run: 'echo Found it!'
+      #   if: steps.checkMajor.outputs.triggered == 'true'
+      # - name: Merge pull request
+      #   uses: "pascalgn/automerge-action@v0.13.1"
+      #   if: steps.checkOatch.outputs.triggered == 'true' || steps.checkMinor.outputs.triggered == 'true' || steps.checkMajor.outputs.triggered == 'true'
+      #   env:
+      #     GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      #     MERGE_LABELS: ""
+      #     MERGE_METHOD: rebase
