@@ -3,7 +3,7 @@
   "info": {
     "title": "NitrAPI Documentation",
     "description": "Nitrado.net RESTful API",
-    "version": "1.0.2"
+    "version": "1.0.3"
   },
   "servers": [
     {
@@ -3601,7 +3601,7 @@
       "delete": {
         "summary": "Delete a ident",
         "description": "<p>Remove an ident</p>",
-        "operationId": "DeleteIdentTMP10",
+        "operationId": "DeleteIdentTMP11",
         "parameters": [
           {
             "name": "ident",
