@@ -115,7 +115,7 @@ jobs:
               exec('git push');
 
               // TODO merge pull request
-            });
+            };
 
             main().catch(err => {
               console.error(err);
