@@ -27,11 +27,11 @@ console.log(payload);
 
 // Parse the comment to find a bump command
 const bumpAt = 2; // which part of the version triplet to bump
-if (payload.comment.body.contains(COMMAND_PATCH)) {
+if (payload.comment.body.includes(COMMAND_PATCH)) {
   bumpAt = 2;
-} else if (payload.comment.body.contains(COMMAND_MINOR)) {
+} else if (payload.comment.body.includes(COMMAND_MINOR)) {
   bumpAt = 1;
-} else if (payload.comment.body.contains(COMMAND_MAJOR)) {
+} else if (payload.comment.body.includes(COMMAND_MAJOR)) {
   bumpAt = 0;
 } else {
   console.warn('No command found in: ' + payload.comment.body);
