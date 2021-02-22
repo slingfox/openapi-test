@@ -94,9 +94,9 @@ jobs:
               fs.writeFileSync(FILE_PATH, JSON.stringify(json, null, 2));
 
               // Add and commit changes
-              exec('git add .', (_,stdout,_) => {console.log(stdout);});
+              exec('git add .', (_,stdout,_b) => {console.log(stdout);});
               exec('git commit -m "Release ' + newVersionStr + '"', (_,stdout,_) => {console.log(stdout);});
-              exec('git push', (_,stdout,_) => {console.log(stdout);});
+              exec('git push', (_,stdout,_b) => {console.log(stdout);});
 
               // TODO merge pull request
             };
