@@ -121,13 +121,15 @@ jobs:
 
               // Get sha of the new commit
               const sha = await sh('git rev-parse HEAD').stdout;
+              console.log('Merge on : ' + sha);
 
               // TODO merge pull request
               await github.pulls.merge({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 pull_number: context.issue.number,
-                merge_method: 'rebase',
+                merge_method: 'squash',
+                commit_title: 'Release ' + newVersionStr,
                 sha: sha
               });
 
