@@ -121,7 +121,7 @@ jobs:
 
               // Get sha of the new commit
               const sha = (await sh('git rev-parse HEAD')).stdout;
-              console.log('Merge on : ' + sha);
+              console.log('Merge on ::' + sha + '::');
 
               // TODO merge pull request
               await github.pulls.merge({
