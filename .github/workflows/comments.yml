@@ -56,6 +56,8 @@ jobs:
             const COMMAND_MINOR = '!minor';
             const COMMAND_MAJOR = '!major';
             const FILE_PATH = 'openapi.json';
+            const AUTHOR_NAME = 'slingfox';
+            const AUTHOR_EMAIL = 'slingfox@users.noreply.github.com';
 
             const main = async() => {
               // Check that the user is permitted to execute via comment
@@ -111,6 +113,8 @@ jobs:
               fs.writeFileSync(FILE_PATH, JSON.stringify(json, null, 2));
 
               // Add and commit changes
+              await sh('git config --global user.name "' + AUTHOR_NAME + '"');
+              await sh('git config --global user.email "' + AUTHOR_EMAIL + '"');
               console.log(await sh('git add .'));
               console.log(await sh('git commit -m "Release ' + newVersionStr + '"'));
               console.log(await sh('git push'));
