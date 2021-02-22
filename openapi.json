@@ -3601,7 +3601,7 @@
       "delete": {
         "summary": "Delete a ident",
         "description": "<p>Remove an ident</p>",
-        "operationId": "DeleteIdentTMP6",
+        "operationId": "DeleteIdentTMP10",
         "parameters": [
           {
             "name": "ident",
