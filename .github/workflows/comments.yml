@@ -120,7 +120,12 @@ jobs:
               console.log(await sh('git push'));
 
               // TODO merge pull request
-
+              await github.pulls.merge({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: context.issue.number,
+                merge_method: 'rebase'
+              })
 
               // Add reaction
               await github.reactions.createForIssueComment({
