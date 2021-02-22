@@ -26,7 +26,7 @@ const payload = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, { enco
 console.log(payload);
 
 // Parse the comment to find a bump command
-const bumpAt = 2; // which part of the version triplet to bump
+let bumpAt = 2; // which part of the version triplet to bump
 if (payload.comment.body.includes(COMMAND_PATCH)) {
   bumpAt = 2;
 } else if (payload.comment.body.includes(COMMAND_MINOR)) {
