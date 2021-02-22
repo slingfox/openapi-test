@@ -95,7 +95,6 @@ jobs:
               const oldVersionStr = json.info.version;
 
               const oldVersion = oldVersionStr.match(/\d+/g);
-              console.log(oldVersion);
 
 
               // https://github.com/weflex/semver-increment/blob/master/index.js
@@ -111,7 +110,7 @@ jobs:
                 }
 
               const newVersionStr = newVersion.join('.');
-              console.log(newVersionStr);
+              console.log('Bumped version from ' + oldVersionStr + ' to ' + newVersionStr);
 
               json.info.version = newVersionStr;
               fs.writeFileSync(FILE_PATH, JSON.stringify(json, null, 2));
@@ -119,13 +118,13 @@ jobs:
               // Add and commit changes
               await sh('git config --global user.name "' + AUTHOR_NAME + '"');
               await sh('git config --global user.email "' + AUTHOR_EMAIL + '"');
-              console.log(await sh('git add .'));
-              console.log(await sh('git commit -m "Release ' + newVersionStr + '"'));
-              console.log(await sh('git push'));
+              await sh('git add .');
+              await sh('git commit -m "Increase version number"');
+              await sh('git push');
 
               // Get sha of the new commit
               const sha = (await sh('git rev-parse HEAD')).stdout.trim();
-              console.log('Merge on ::' + sha + '::');
+              console.log('Merge on ' + sha);
 
               // Wait for the pull request to be updated, else the latest push is not included in the merge
               await sleep(1000);
