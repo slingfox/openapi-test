@@ -50,6 +50,10 @@ jobs:
               });
             }
 
+            async function sleep(ms) {
+              return new Promise(resolve => setTimeout(resolve, ms));
+            }
+
             // Constants
             const PERMITTED_ACTOR = 'slingfox';
             const COMMAND_PATCH = '!patch';
@@ -123,7 +127,10 @@ jobs:
               const sha = (await sh('git rev-parse HEAD')).stdout.trim();
               console.log('Merge on ::' + sha + '::');
 
-              // TODO merge pull request
+              // Wait for the pull request to be updated, else the latest push is not included in the merge
+              sleep(1000);
+
+              // Merge pull request
               await github.pulls.merge({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
