@@ -53,12 +53,16 @@ jobs:
 
               // Parse the comment to find a bump command
               let bumpAt = 2; // which part of the version triplet to bump
+              let reaction = '+1';
               if (context.payload.comment.body.includes(COMMAND_PATCH)) {
                 bumpAt = 2;
+                reaction = '+1';
               } else if (context.payload.comment.body.includes(COMMAND_MINOR)) {
                 bumpAt = 1;
+                reaction = 'hooray';
               } else if (context.payload.comment.body.includes(COMMAND_MAJOR)) {
                 bumpAt = 0;
+                reaction = 'rocket';
               } else {
                 console.warn('No command found in: ' + context.payload.comment.body);
                 return;
@@ -95,10 +99,19 @@ jobs:
 
               // Add and commit changes
               exec('git add .', (_,stdout,_b) => {console.log(stdout);});
-              exec('git commit -m "Release ' + newVersionStr + '"', (_,stdout,_) => {console.log(stdout);});
+              exec('git commit -m "Release ' + newVersionStr + '"', (_,stdout,_b) => {console.log(stdout);});
               exec('git push', (_,stdout,_b) => {console.log(stdout);});
 
               // TODO merge pull request
+
+
+              // Add reaction
+              await github.reactions.createForIssueComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: context.payload.comment.id,
+                content: reaction
+              });
             };
 
             main().catch(err => {
