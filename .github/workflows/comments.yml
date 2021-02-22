@@ -120,7 +120,7 @@ jobs:
               console.log(await sh('git push'));
 
               // Get sha of the new commit
-              const sha = (await sh('git rev-parse HEAD')).stdout;
+              const sha = (await sh('git rev-parse HEAD')).stdout.trim();
               console.log('Merge on ::' + sha + '::');
 
               // TODO merge pull request
