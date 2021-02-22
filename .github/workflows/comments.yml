@@ -110,9 +110,9 @@ jobs:
               fs.writeFileSync(FILE_PATH, JSON.stringify(json, null, 2));
 
               // Add and commit changes
-              exec('git add .');
-              exec('git commit -m "Release ' + newVersionStr + '"');
-              exec('git push');
+              await exec('git add .');
+              await exec('git commit -m "Release ' + newVersionStr + '"');
+              await exec('git push');
 
               // TODO merge pull request
             };
