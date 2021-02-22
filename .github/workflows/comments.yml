@@ -35,23 +35,7 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            const spawn = require('child_process').spawn;
-
-            // 
-            // https://github.com/ad-m/github-push-action/blob/fe38f0a751bf9149f0270cc1fe20bf9156854365/start.js
-            const exec = (cmd, args=[]) => new Promise((resolve, reject) => {
-                console.log(`Started: ${cmd} ${args.join(" ")}`)
-                const app = spawn(cmd, args, { stdio: 'inherit' });
-                app.on('close', code => {
-                    if(code !== 0){
-                        err = new Error(`Invalid status code: ${code}`);
-                        err.code = code;
-                        return reject(err);
-                    };
-                    return resolve(code);
-                });
-                app.on('error', reject);
-            });
+            const exec = require('child_process').exec;
 
             // Constants
             const PERMITTED_ACTOR = 'slingfox';
@@ -110,9 +94,9 @@ jobs:
               fs.writeFileSync(FILE_PATH, JSON.stringify(json, null, 2));
 
               // Add and commit changes
-              await exec('git add .');
-              await exec('git commit -m "Release ' + newVersionStr + '"');
-              await exec('git push');
+              exec('git add .', (_,stdout,_) => {console.log(stdout);});
+              exec('git commit -m "Release ' + newVersionStr + '"', (_,stdout,_) => {console.log(stdout);});
+              exec('git push', (_,stdout,_) => {console.log(stdout);});
 
               // TODO merge pull request
             };
