@@ -35,6 +35,23 @@ jobs:
         with:
           script: |
             const fs = require('fs');
+            const spawn = require('child_process').spawn;
+
+            // 
+            // https://github.com/ad-m/github-push-action/blob/fe38f0a751bf9149f0270cc1fe20bf9156854365/start.js
+            const exec = (cmd, args=[]) => new Promise((resolve, reject) => {
+                console.log(`Started: ${cmd} ${args.join(" ")}`)
+                const app = spawn(cmd, args, { stdio: 'inherit' });
+                app.on('close', code => {
+                    if(code !== 0){
+                        err = new Error(`Invalid status code: ${code}`);
+                        err.code = code;
+                        return reject(err);
+                    };
+                    return resolve(code);
+                });
+                app.on('error', reject);
+            });
 
             // Constants
             const PERMITTED_ACTOR = 'slingfox';
@@ -43,53 +60,68 @@ jobs:
             const COMMAND_MAJOR = '!major';
             const FILE_PATH = 'openapi.json';
 
-            // Check that the user is permitted to execute via comment
-            if (context.actor !== PERMITTED_ACTOR) {
-              console.warn('Not a comment by a permitted author');
-              return;
-            }
-
-            // Parse the comment to find a bump command
-            let bumpAt = 2; // which part of the version triplet to bump
-            if (context.payload.comment.body.includes(COMMAND_PATCH)) {
-              bumpAt = 2;
-            } else if (context.payload.comment.body.includes(COMMAND_MINOR)) {
-              bumpAt = 1;
-            } else if (context.payload.comment.body.includes(COMMAND_MAJOR)) {
-              bumpAt = 0;
-            } else {
-              console.warn('No command found in: ' + context.payload.comment.body);
-              return;
-            }
-
-            console.log('Bump: ' + bumpAt);
-
-            const data = fs.readFileSync(FILE_PATH);
-            const json = JSON.parse(data);
-
-            const oldVersionStr = json.info.version;
-
-            const oldVersion = oldVersionStr.match(/\d+/g);
-            console.log(oldVersion);
-
-
-            // https://github.com/weflex/semver-increment/blob/master/index.js
-            let newVersion = []
-            for (let i = 0; i < oldVersion.length; ++i) {
-                if (i < bumpAt) {
-                  newVersion[i] = +oldVersion[i];
-                } else if (i === bumpAt) {
-                  newVersion[i] = +oldVersion[i] + 1;
-                } else {
-                  newVersion[i] = 0;
-                }
+            const main = async() => {
+              // Check that the user is permitted to execute via comment
+              if (context.actor !== PERMITTED_ACTOR) {
+                console.warn('Not a comment by a permitted author');
+                return;
               }
 
-            const newVersionStr = newVersion.join('.');
-            console.log(newVersionStr);
+              // Parse the comment to find a bump command
+              let bumpAt = 2; // which part of the version triplet to bump
+              if (context.payload.comment.body.includes(COMMAND_PATCH)) {
+                bumpAt = 2;
+              } else if (context.payload.comment.body.includes(COMMAND_MINOR)) {
+                bumpAt = 1;
+              } else if (context.payload.comment.body.includes(COMMAND_MAJOR)) {
+                bumpAt = 0;
+              } else {
+                console.warn('No command found in: ' + context.payload.comment.body);
+                return;
+              }
 
-            json.info.version = newVersionStr;
-            fs.writeFileSync(FILE_PATH, JSON.stringify(json, null, 2));
+              console.log('Bump: ' + bumpAt);
+
+              const data = fs.readFileSync(FILE_PATH);
+              const json = JSON.parse(data);
+
+              const oldVersionStr = json.info.version;
+
+              const oldVersion = oldVersionStr.match(/\d+/g);
+              console.log(oldVersion);
+
+
+              // https://github.com/weflex/semver-increment/blob/master/index.js
+              let newVersion = []
+              for (let i = 0; i < oldVersion.length; ++i) {
+                  if (i < bumpAt) {
+                    newVersion[i] = +oldVersion[i];
+                  } else if (i === bumpAt) {
+                    newVersion[i] = +oldVersion[i] + 1;
+                  } else {
+                    newVersion[i] = 0;
+                  }
+                }
+
+              const newVersionStr = newVersion.join('.');
+              console.log(newVersionStr);
+
+              json.info.version = newVersionStr;
+              fs.writeFileSync(FILE_PATH, JSON.stringify(json, null, 2));
+
+              // Add and commit changes
+              exec('git add .');
+              exec('git commit -m "Release ' + newVersionStr + '"');
+              exec('git push');
+
+              // TODO merge pull request
+            });
+
+            main().catch(err => {
+              console.error(err);
+              console.error(err.stack);
+              process.exit(err.code || -1);
+            });
 
 
       # - uses: khan/pull-request-comment-trigger@master
