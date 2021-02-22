@@ -119,13 +119,17 @@ jobs:
               console.log(await sh('git commit -m "Release ' + newVersionStr + '"'));
               console.log(await sh('git push'));
 
+              // Get sha of the new commit
+              const sha = await sh('git rev-parse HEAD').stdout;
+
               // TODO merge pull request
               await github.pulls.merge({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 pull_number: context.issue.number,
-                merge_method: 'rebase'
-              })
+                merge_method: 'rebase',
+                sha: sha
+              });
 
               // Add reaction
               await github.reactions.createForIssueComment({
